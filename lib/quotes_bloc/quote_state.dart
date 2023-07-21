@@ -1,5 +1,5 @@
+import 'package:quotes_bloc/model/image_data_model.dart';
 import 'package:quotes_bloc/model/quotes_data_model.dart';
-
 
 class QuotesStates {}
 
@@ -15,7 +15,7 @@ class QuotesLoadedState extends QuotesStates {
 class ImageLoadingState extends QuotesStates {}
 
 class ImageLoadedState extends QuotesStates {
-  final List<ImageDataModel> images;
+  List<ImageDataModel> images;
   ImageLoadedState({required this.images});
 }
 

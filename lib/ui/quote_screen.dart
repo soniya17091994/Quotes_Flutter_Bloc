@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:quotes_bloc/quotes_bloc/quote_bloc.dart';
 import 'package:quotes_bloc/quotes_bloc/quote_event.dart';
 import 'package:quotes_bloc/quotes_bloc/quote_state.dart';
@@ -16,8 +17,6 @@ class QuoteScreen extends StatefulWidget {
 }
 
 class _QuoteScreenState extends State<QuoteScreen> {
- // List? imageList;
- // int? imageNumber = 0;
   @override
   void initState() {
     blocQuotes.add(QuotesInitialEvent());
@@ -41,17 +40,6 @@ class _QuoteScreenState extends State<QuoteScreen> {
               return Scaffold(
                 body: Stack(
                   children: [
-// AnimatedSwitcher(
-//   duration:const Duration(seconds: 1),
-//   child: BlurHash(
-//     key: ValueKey(imageList![imageNumber!]['blur_hash']),
-//     hash: imageList![imageNumber!]['blur_hash'],
-//     duration: const Duration(milliseconds: 500),
-//     image: imageList![imageNumber!]['urls']['regular'],
-//     curve: Curves.easeInOut,
-//     imageFit: BoxFit.cover,
-//   ),
-// ),
                     Container(
                       color: Colors.black,
                       width: MediaQuery.of(context).size.width,
@@ -76,6 +64,20 @@ class _QuoteScreenState extends State<QuoteScreen> {
                   ],
                 ),
               );
+            }
+            else if(state is ImageLoadedState){
+              return Scaffold(body: 
+              AnimatedSwitcher(
+                   duration:const Duration(seconds: 1),
+                   child: BlurHash(
+                     key: ValueKey(state.images),
+                     hash: state.images.toString(),
+                     duration: const Duration(milliseconds: 500),
+                     image: state.images.toString(),
+                     curve: Curves.easeInOut,
+                     imageFit: BoxFit.cover,
+                   ),
+                 ),);
             }
             return SizedBox();
           }),
