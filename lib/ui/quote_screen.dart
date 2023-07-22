@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:quotes_bloc/quotes_bloc/quote_bloc.dart';
 import 'package:quotes_bloc/quotes_bloc/quote_event.dart';
 import 'package:quotes_bloc/quotes_bloc/quote_state.dart';
@@ -20,11 +21,11 @@ class _QuoteScreenState extends State<QuoteScreen> {
   @override
   void initState() {
     blocQuotes.add(QuotesInitialEvent());
-    blocQuotes.add(GetImages());
     super.initState();
   }
 
   final BlocQuotes blocQuotes = BlocQuotes();
+  int imageNumber=0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +39,20 @@ class _QuoteScreenState extends State<QuoteScreen> {
               );
             } else if (state is QuotesLoadedState) {
               return Scaffold(
-                body: Stack(
+                body: state.imageList!=null?Stack(
                   children: [
+                    AnimatedSwitcher(
+                      duration: const Duration(seconds: 1),
+                      child: BlurHash(
+                        key: ValueKey(
+                            state.imageList![imageNumber]['blur_hash']),
+                        hash: state.imageList![imageNumber]['blur_hash'],
+                        duration: const Duration(milliseconds: 500),
+                        image: state.imageList![imageNumber]['urls']['regular'],
+                        curve: Curves.easeInOut,
+                        imageFit: BoxFit.cover,
+                      ),
+                    ),
                     Container(
                       color: Colors.black,
                       width: MediaQuery.of(context).size.width,
@@ -59,27 +72,59 @@ class _QuoteScreenState extends State<QuoteScreen> {
                                   enlargeCenterPage: true,
                                   onPageChanged: (index, value) {
                                     HapticFeedback.lightImpact();
+                                    imageNumber = index;
+                                    setState(() {});
                                   }))),
                     ),
+                    Positioned(
+                        top: 50,
+                        right: 30,
+                        child: Row(
+                          children: [
+                            Text(
+                              state.imageList![imageNumber]['user']['username'],
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.5),
+                                  fontSize: 16,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                            Text(
+                              ' On ',
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.5),
+                                  fontSize: 16,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                            Text(
+                              'Unsplash',
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.5),
+                                  fontSize: 16,
+                                  fontStyle: FontStyle.italic),
+                            )
+                          ],
+                        )),
                   ],
-                ),
+                ): Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        color: Colors.black.withOpacity(0.6),
+                        child: const SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: SpinKitFadingCircle(color: Colors.white),
+                        )),
               );
             }
-            else if(state is ImageLoadedState){
-              return Scaffold(body: 
-              AnimatedSwitcher(
-                   duration:const Duration(seconds: 1),
-                   child: BlurHash(
-                     key: ValueKey(state.images),
-                     hash: state.images.toString(),
-                     duration: const Duration(milliseconds: 500),
-                     image: state.images.toString(),
-                     curve: Curves.easeInOut,
-                     imageFit: BoxFit.cover,
-                   ),
-                 ),);
-            }
-            return SizedBox();
+            else{return Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: Colors.black.withOpacity(0.6),
+                child: const SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: SpinKitFadingCircle(color: Colors.white),
+                ));}
           }),
     );
   }

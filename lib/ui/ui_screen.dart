@@ -42,34 +42,7 @@ class _UI_ScreenState extends State<UI_Screen> {
                   fontStyle: FontStyle.italic),
               textAlign: TextAlign.center,
             ),
-        //    Positioned(
-        //        top: 50,
-        //        right: 30,
-        //        child: Row(
-        //          children: [
-        //            Text(
-        //              '${imageList![imageNumber!]['user']['username']}',
-        //              style: TextStyle(
-        //                  color: Colors.white.withOpacity(0.5),
-        //                  fontSize: 16,
-        //                  fontStyle: FontStyle.italic),
-        //            ),
-        //            Text(
-        //              ' On ',
-        //              style: TextStyle(
-        //                  color: Colors.white.withOpacity(0.5),
-        //                  fontSize: 16,
-        //                  fontStyle: FontStyle.italic),
-        //            ),
-        //            Text(
-        //              'Unsplash',
-        //              style: TextStyle(
-        //                  color: Colors.white.withOpacity(0.5),
-        //                  fontSize: 16,
-        //                  fontStyle: FontStyle.italic),
-        //            )
-        //          ],
-        //        )),
+            
           ],
         ),
       ),
