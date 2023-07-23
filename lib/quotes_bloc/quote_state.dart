@@ -9,9 +9,7 @@ class QuotesLoadingState extends QuotesStates {}
 class QuotesLoadedState extends QuotesStates {
   final List<QuotesDataModel> quotes;
   List? imageList;
-  QuotesLoadedState(
-      {required this.quotes,
-      required this.imageList});
+  QuotesLoadedState({required this.quotes, required this.imageList});
 }
 
-class ImageErrorState extends QuotesStates {}
+class QuotesErrorState extends QuotesStates {}
